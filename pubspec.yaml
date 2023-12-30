@@ -1,0 +1,35 @@
+name: navtern
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.2.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+  flutter_svg: ^2.0.9
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+fonts:
+  - family: Poppins
+    fonts:
+      - asset: fonts/Poppins-Bold.ttf
+        weight: 700
+      - asset: fonts/Poppins-Medium
+        weight: 500
+      - asset: fonts/Poppins-Regular.ttf
+        weight: 400
+      - asset: fonts/Poppins-SemiBold.ttf
+        weight: 600
