@@ -6,90 +6,68 @@ import 'help.dart';
 import 'about.dart';
 
 class MyPage extends StatefulWidget {
-  const MyPage({super.key});
+  const MyPage({Key? key}) : super(key: key);
 
   @override
   State<MyPage> createState() => _MyPageState();
 }
 
 class _MyPageState extends State<MyPage> {
-  String _selectedDropdownItem = 'Home';
-  String _selectedPopupMenu = 'Home';
+  int _selectedIndex = 0;
 
-  final List<String> dropdownItems = ['Home', 'Applications', 'Results'];
+  static const List<Widget> _pages = <Widget>[
+    HomePage(),
+    ApplicationsPage(),
+    ResultsPage(),
+  ];
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
-        title: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            alignment: Alignment.center,
-            value: _selectedDropdownItem,
-            icon: const Icon(Icons.arrow_drop_down),
-            onChanged: (String? newValue) {
-              setState(() {
-                _selectedDropdownItem = newValue ?? 'Home'; // Use 'Home' as default
-              });
-            },
-            items: dropdownItems.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(value),
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-        elevation: 0.0,
+        title: const Text('Navtern'),
         centerTitle: true,
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (String value) {
-              setState(() {
-                _selectedPopupMenu = value;
-              });
-              _buildScreen(_selectedPopupMenu);
+          IconButton(
+            icon: const Icon(Icons.help),
+            onPressed: () {
+              _buildScreen('Help');
             },
-            itemBuilder: (BuildContext context) {
-              return [
-                const PopupMenuItem<String>(
-                  value: 'Help',
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text('Help'),
-                  ),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'About',
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Text('About'),
-                  ),
-                ),
-              ];
+          ),
+          IconButton(
+            icon: const Icon(Icons.info),
+            onPressed: () {
+              _buildScreen('About');
             },
           ),
         ],
       ),
-      body: _buildPage(_selectedDropdownItem), // Display pages
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.apps),
+            label: 'Applications',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insert_chart),
+            label: 'Results',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
-  }
-
-  Widget _buildPage(String selectedMenuItem) {
-    switch (selectedMenuItem) {
-      case 'Home':
-        return const HomePage();
-      case 'Applications':
-        return const ApplicationsPage();
-      case 'Results':
-        return const ResultsPage();
-      default:
-        return const HomePage();
-    }
   }
 
   void _buildScreen(String value) {
