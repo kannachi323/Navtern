@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:navtern/pages/mypage.dart';
+import 'package:navtern/pages/controller.dart';
 import 'package:navtern/pages/results.dart';
-import 'package:navtern/pages/home.dart';
+import 'package:navtern/pages/search.dart';
 import 'package:navtern/pages/help.dart';
 import 'package:navtern/pages/about.dart';
 import 'package:navtern/pages/applications.dart';
@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
       ),
       home: const MyPage(),
       routes: {
-        '/home': (context) => const HomePage(),
+        '/home': (context) => const SearchPage(),
         '/applications': (context) => const ApplicationsPage(),
         '/settings': (context) => const ResultsPage(),
         '/help': (context) => const HelpPage(),

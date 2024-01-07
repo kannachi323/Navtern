@@ -5,15 +5,15 @@ import 'package:navtern/data/service.dart';
 import 'package:navtern/pages/webview.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SearchPage> createState() => _SearchPageState();
   
 }
 
-class _HomePageState extends State<HomePage> {
+class _SearchPageState extends State<SearchPage> {
   List<Listing> listings = [];
   int items = 50;
   final ScrollController _scrollController = ScrollController();
@@ -29,16 +29,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadData() async {
-    try {
-      final newData = await _dataService.getJsonData();
-      if (mounted) {
-        setState(() {
-          listings = newData.reversed.toList();
-        });
-      }
-    } catch (e) {
-      print("Error loading data: $e");
+   
+    final newData = await _dataService.getJsonData();
+    if (mounted) {
+      setState(() {
+        listings = newData.reversed.toList();
+      });
     }
+  
   }
 
   

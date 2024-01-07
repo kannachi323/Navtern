@@ -19,7 +19,7 @@ class _WebViewPageState extends State<WebViewPage> {
     return Scaffold(
       appBar: AppBar(
         
-        title: Text("Navtern"),
+        title: const Text("Navtern"),
         actions: <Widget>[
           IconButton(
             onPressed: () async {
@@ -44,4 +44,5 @@ class _WebViewPageState extends State<WebViewPage> {
       )
     );
   }
+  
 }
