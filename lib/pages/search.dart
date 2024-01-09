@@ -14,29 +14,16 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<Listing> listings = [];
+  List<Listing> listings= [];
   int items = 50;
   final ScrollController _scrollController = ScrollController();
-  final DataService _dataService = DataService();
-
+  
   @override
   void initState() {
     super.initState();
-    _loadData();
-    Timer.periodic(const Duration(hours: 5), (timer) {
-      _loadData();
-    });
-  }
+    DataService.getJsonData();
+    listings = DataService.listings.reversed.toList();
 
-  Future<void> _loadData() async {
-   
-    final newData = await _dataService.getJsonData();
-    if (mounted) {
-      setState(() {
-        listings = newData.reversed.toList();
-      });
-    }
-  
   }
 
   
@@ -52,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
                 controller: _scrollController,
                 itemCount: items,
                 itemBuilder: (context, index) {
-                  if (index == items - 1 && items < listings.length / 10) {
+                  if (index == items - 1 && items < listings.length) {
                     return TextButton(
                       onPressed: () {
                         setState(() {
@@ -61,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
                       },
                       child: const Text('Load More'),
                     );
-                  } else if (index < listings.length / 10) {
+                  } else if (index < listings.length) {
                     Listing listing = listings[index];
                     return Card(
                       child: Theme(

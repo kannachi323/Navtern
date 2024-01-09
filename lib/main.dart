@@ -5,6 +5,9 @@ import 'package:navtern/pages/search.dart';
 import 'package:navtern/pages/help.dart';
 import 'package:navtern/pages/about.dart';
 import 'package:navtern/pages/applications.dart';
+import 'package:navtern/data/service.dart';
+import 'package:navtern/data/listing.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MainApp());
@@ -15,8 +18,11 @@ void main() {
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

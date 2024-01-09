@@ -5,6 +5,9 @@ import 'package:navtern/pages/applications.dart';
 import 'package:navtern/pages/help.dart';
 import 'package:navtern/pages/search.dart';
 import 'package:navtern/pages/results.dart';
+import 'package:navtern/data/service.dart';
+import 'package:navtern/data/listing.dart';
+import 'dart:async';
 
 class MyPage extends StatefulWidget {
   const MyPage({super.key});
@@ -15,6 +18,7 @@ class MyPage extends StatefulWidget {
 
 class _MyPageState extends State<MyPage> {
   int _selectedIndex = 0;
+  
   final List<Widget> _pages = [
     const ResultsPage(),
     const SearchPage(),
