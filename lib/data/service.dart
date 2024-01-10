@@ -15,8 +15,9 @@ class DataService {
           'https://raw.githubusercontent.com/SimplifyJobs/Summer2024-Internships/dev/.github/scripts/listings.json'),
     );
     if (response.statusCode == 200) {
-      final List<dynamic> jsonList = json.decode(response.body);
+      List<dynamic> jsonList = json.decode(response.body);
       listings = jsonList.map((jsonObject) => Listing.fromJson(jsonObject)).toList();
+      listings = listings.reversed.toList();
     } else {
       throw Exception("Error reading JSON data");
     }
