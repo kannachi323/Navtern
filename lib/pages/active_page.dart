@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:navtern/pages/applications.dart';
+import 'package:navtern/pages/auth_gate.dart';
+import 'package:navtern/pages/home.dart';
 import 'package:navtern/pages/jobs.dart';
 import 'package:navtern/pages/results.dart';
 
@@ -15,16 +17,14 @@ class _ActivePageState extends State<ActivePage> {
   int _selectedIndex = 0;
   
   final List<Widget> _pages = [
-    const ResultsPage(),
+    const HomePage(),
     const JobsPage(),
     const ApplicationsPage(),
     const ResultsPage(),
   ];
 
   final List<PreferredSizeWidget> _appBars = [
-    AppBar(
-      title: const Text('Navtern'), 
-      scrolledUnderElevation: 0.0),
+    AppBar(title: const Text('Navtern')),
     AppBar(title: const Text('Jobs'), scrolledUnderElevation: 0.0,),
     AppBar(title: const Text('Applications')),
     AppBar(title: const Text('Results')),
@@ -51,7 +51,7 @@ class _ActivePageState extends State<ActivePage> {
             ),
             GButton(
               icon: Icons.search,
-              text: 'Search',
+              text: 'Jobs',
             ),
             GButton(
               icon: Icons.list_alt,
