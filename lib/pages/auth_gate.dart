@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +10,10 @@ class AuthGate extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool hidden = true;
+  
   AuthGate({Key? key});
   
-  
+  //Welcome, please log in.
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -65,22 +68,13 @@ class AuthGate extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () async {
-                      try {
-                        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                        final user = FirebaseAuth.instance.currentUser;
-                        await user?.updateDisplayName(nameController.text);
-                        print('Successfully signed in: ${userCredential.user!.uid}');
-                        print(user?.displayName);
-                      } catch (e) {
-                        print('Error signing in: $e');
-                        // Handle sign-in error (show a message, navigate to another screen, etc.)
-                      }
+                    onPressed: () {
+                      //loginProfile(emailController.text, passwordController.text);
+                    
+                      emailController.clear();
+                      passwordController.clear();
                     },
-                    child: const Text('Log In'),
+                   child: const Text('Log In'),
                   ),
                 ],
               ),
@@ -91,5 +85,30 @@ class AuthGate extends StatelessWidget {
         return const ActivePage();
       },
     );
+  }
+
+  Future registerProfile(String name, String email, String pass) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
+      final user = FirebaseAuth.instance.currentUser;
+      await user?.updateDisplayName(name);
+    } catch (e) {
+      return Null;
+    }
+  }
+
+  Future loginProfile(String email, String pass) async{
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: pass,
+      );
+    }
+    catch (e) {
+      return Null;
+    }
   }
 }
