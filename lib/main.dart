@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
       ),
-      home: const AuthGate(),
+      home: AuthGate(),
       /*routes: {
         '/home': (context) => const JobsPage(),
         '/applications': (context) => const ApplicationsPage(),

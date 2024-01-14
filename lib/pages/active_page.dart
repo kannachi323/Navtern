@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:navtern/pages/applications.dart';
@@ -24,9 +25,15 @@ class _ActivePageState extends State<ActivePage> {
   ];
 
   final List<PreferredSizeWidget> _appBars = [
-    AppBar(title: const Text('Navtern')),
+    AppBar(
+      title: const Text('Navtern'),
+      
+      ),
+    
     AppBar(title: const Text('Jobs'), scrolledUnderElevation: 0.0,),
+    
     AppBar(title: const Text('Applications')),
+    
     AppBar(title: const Text('Results')),
   ];
 
@@ -35,6 +42,29 @@ class _ActivePageState extends State<ActivePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBars[_selectedIndex],
+      drawer: Drawer(
+        width: 250,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            SizedBox(
+              height: 150,
+              child: UserAccountsDrawerHeader(
+                accountName: Text(FirebaseAuth.instance.currentUser?.displayName ?? 'Guest'),
+                accountEmail: Text(FirebaseAuth.instance.currentUser?.email ?? ''),
+                
+                
+                
+                  
+              ),
+            ),
+            const ListTile(
+              title: Text('Settings'),
+            )
+          ]
+          
+        ),
+      ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.fromLTRB(15, 5, 15, 25),
