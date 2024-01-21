@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:navtern/pages/applications.dart';
+import 'package:navtern/pages/matches.dart';
 import 'package:navtern/pages/auth_gate.dart';
 import 'package:navtern/pages/home.dart';
 import 'package:navtern/pages/jobs.dart';
@@ -32,7 +32,7 @@ class _ActivePageState extends State<ActivePage> {
     
     AppBar(title: const Text('Jobs'), scrolledUnderElevation: 0.0,),
     
-    AppBar(title: const Text('Applications')),
+    AppBar(title: const Text('Matches')),
     
     AppBar(title: const Text('Results')),
   ];
@@ -80,12 +80,12 @@ class _ActivePageState extends State<ActivePage> {
               text: 'Home',
             ),
             GButton(
-              icon: Icons.search,
+              icon: Icons.favorite,
               text: 'Jobs',
             ),
             GButton(
               icon: Icons.list_alt,
-              text: 'Applications',
+              text: 'Matches',
             ),
             GButton(
               icon: Icons.insert_chart_outlined,

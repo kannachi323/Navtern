@@ -8,7 +8,7 @@ import 'package:navtern/pages/results.dart';
 import 'package:navtern/pages/jobs.dart';
 import 'package:navtern/pages/help.dart';
 import 'package:navtern/pages/about.dart';
-import 'package:navtern/pages/applications.dart';
+import 'package:navtern/pages/matches.dart';
 import 'package:navtern/pages/auth_gate.dart';
 
 
@@ -35,13 +35,13 @@ class MainApp extends StatelessWidget {
         fontFamily: 'Poppins',
       ),
       home: AuthGate(),
-      /*routes: {
+      routes: {
         '/home': (context) => const JobsPage(),
         '/applications': (context) => const ApplicationsPage(),
         '/settings': (context) => const ResultsPage(),
         '/help': (context) => const HelpPage(),
         '/about': (context) => const AboutPage(),
-      }*/
+      }
     );
   }
 }
