@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:navtern/pages/matches.dart';
-import 'package:navtern/pages/auth_gate.dart';
 import 'package:navtern/pages/home.dart';
 import 'package:navtern/pages/jobs.dart';
 import 'package:navtern/pages/results.dart';
@@ -19,7 +18,7 @@ class _ActivePageState extends State<ActivePage> {
   
   final List<Widget> _pages = [
     const HomePage(),
-    const JobsPage(),
+    JobsPage(),
     const ApplicationsPage(),
     const ResultsPage(),
   ];
