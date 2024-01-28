@@ -79,7 +79,7 @@ class _ActivePageState extends State<ActivePage> {
               text: 'Home',
             ),
             GButton(
-              icon: Icons.favorite,
+              icon: Icons.favorite_border,
               text: 'Jobs',
             ),
             GButton(

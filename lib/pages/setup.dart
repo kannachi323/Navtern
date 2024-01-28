@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:navtern/pages/active_page.dart';
+
 
 //Login
 
@@ -13,9 +12,15 @@ class Setup extends StatefulWidget {
 }
 
 class _SetupState extends State<Setup> {
-  final TextEditingController nameController = TextEditingController();
+  //Login
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  
+  //Register
+  final TextEditingController rfnController = TextEditingController();
+  final TextEditingController rlnController = TextEditingController();
+  final TextEditingController rEmController = TextEditingController();
+  final TextEditingController rPassController = TextEditingController();
   
   bool hidden = true;
   Icon hiddenIcon = const Icon(Icons.visibility_off);
@@ -30,26 +35,42 @@ class _SetupState extends State<Setup> {
       
     );
   }
-
+  
   Widget buildRegisterPage() {
     return Scaffold(
-     
       body: Column(
         children: [
-          buildName(),
-          buildEmail(),
-          buildPassword(),
-          buildButton(_selectedIndex),
-          const Text("Don't have a Navtern account?"),
+          buildName("First Name", rfnController),
+          buildName("Last Name", rlnController),
+          buildEmail(rEmController),
+          buildPassword(rPassController),
           TextButton(
             onPressed: () {
               setState(() {
                 _selectedIndex = 0;
               });
             },
-            child: const Text("Log In"),
+            child: const Text("Already have a Navtern account?"),
           ),
-        ],
+          ElevatedButton(
+            onPressed: () {
+            
+              registerProfile(rfnController.text, rlnController.text, 
+              rEmController.text)
+                  .then((bool success) {
+                  if (!success) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Invalid user details"),
+                      ),
+                    
+                    );
+                  }
+              });
+            },
+          child: const Text("Register"),
+          ),
+        ]
       ),
     );
   }
@@ -58,43 +79,60 @@ class _SetupState extends State<Setup> {
     return Scaffold(
       body: Column(
         children: [
-          buildEmail(),
-          buildPassword(),
-          buildButton(_selectedIndex),
-          const Text("Don't have a Navtern account?"),
+          buildEmail(emailController),
+          buildPassword(passwordController),
           TextButton(
             onPressed: () {
               setState(() {
                 _selectedIndex = 1;
               });
             },
-            child: const Text("Sign Up"),
+            child: const Text("Don't have a Navtern account?")
+          ),
+          ElevatedButton(
+            onPressed: () {
+             
+                loginProfile(emailController.text, passwordController.text)
+                    .then((bool success) {
+                    if (!success) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Invalid user details"),
+                        ),
+                      
+                      );
+                    }
+                });
+              },
+              child: const Text("Log In")
           ),
         ],
       ),
     );
   }
 
-  Widget buildName() {
+  Widget buildName(String part, TextEditingController controller) {
+   
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 5, 32, 5),
       child: TextField(
-        controller: nameController,
+        controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          labelText: 'Name',
+          labelText: part,
         ),
       ),
     );
   }
 
-  Widget buildEmail() {
+  Widget buildEmail(TextEditingController controller) {
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 5, 32, 5),
       child: TextField(
-        controller: emailController,
+        controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
@@ -105,12 +143,13 @@ class _SetupState extends State<Setup> {
     );
   }
 
-  Widget buildPassword() {
+  Widget buildPassword(TextEditingController controller) {
+  
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 5, 32, 5),
       child: TextField(
         obscureText: hidden,
-        controller: passwordController,
+        controller: controller,
         decoration: InputDecoration(
           suffixIcon: IconButton(
             onPressed: () {
@@ -132,43 +171,6 @@ class _SetupState extends State<Setup> {
           labelText: "Password",
         ),
       ),
-    );
-  }
-
-  Widget buildButton(int index) {
-    return ElevatedButton(
-      onPressed: () {
-        BuildContext currContext = context;
-        if (index == 0) {
-          loginProfile(emailController.text, passwordController.text)
-              .then((bool success) {
-              if (!success) {
-                ScaffoldMessenger.of(currContext).showSnackBar(
-                  const SnackBar(
-                    content: Text("Invalid user details"),
-                  ),
-                
-                );
-              }
-          });
-        }
-        else if (index == 1) {
-          registerProfile(nameController.text, emailController.text, passwordController.text)
-              .then((bool success) {
-                
-              if (!success) {
-                print("did not register");
-                ScaffoldMessenger.of(currContext).showSnackBar(
-                  const SnackBar(
-                    content: Text("Invalid user details"),
-                  ),
-                
-                );
-              }
-          });
-        }
-      }, 
-      child: index == 0 ? const Text("Log In") : const Text("Sign Up")
     );
   }
 

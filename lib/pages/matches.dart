@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:navtern/pages/jobs.dart';
+import 'package:navtern/pages/webview.dart';
 import 'package:provider/provider.dart';
-import 'package:navtern/data/listing.dart';
+
 
 class ApplicationsPage extends StatefulWidget {
-  const ApplicationsPage({Key? key});
+  const ApplicationsPage({super.key});
 
   @override
   State<ApplicationsPage> createState() => _ApplicationsPageState();
@@ -16,7 +17,7 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
     var state = context.watch<JobsPageState>();
 
     if (state.favorites.isEmpty) {
-      return Center(
+      return const Center(
         child: Text("Darn, you have no matches yet!"),
       );
     }
@@ -38,10 +39,11 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
                         onPressed: () {
                           setState(() {
                             state.removeFavorites(index);
+                            state.updateProgress();
                             Navigator.pop(context, true);
                           });
                         },
-                        child: Text("Yes"),
+                        child: const Text("Yes"),
                       ),
                     ],
                   );
@@ -59,16 +61,33 @@ class _ApplicationsPageState extends State<ApplicationsPage> {
                 ),
               ),
             ),
-            child: Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ListTile(
-                    leading: const Icon(Icons.album),
-                    title: Text(state.favorites[index].title),
-                    subtitle: Text(state.favorites[index].companyName),
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    ListTile(
+                      leading: const Icon(Icons.work),
+                      title: Text(state.favorites[index].title),
+                      subtitle: Text(state.favorites[index].companyName),
+                      
+                    ),
+                                 ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => WebViewPage(url: state.favorites[index].url),
+                                    ),
+                                  );          
+                                },
+                                child:
+                                  const Text("Apply"),
+                              )
+                      
+                  ],
+                ),
               ),
             ),
           );

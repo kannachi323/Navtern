@@ -21,19 +21,19 @@ class Listing {
   String sponsorship;
 
   Listing ({
-      required this.source,
-        required this.companyName,
-        required this.id,
-        required this.title,
-        required this.active,
-        required this.terms,
-        required this.dateUpdated,
-        required this.datePosted,
-        required this.url,
-        required this.locations,
-        required this.companyUrl,
-        required this.isVisible,
-        required this.sponsorship,
+    required this.source,
+    required this.companyName,
+    required this.id,
+    required this.title,
+    required this.active,
+    required this.terms,
+    required this.dateUpdated,
+    required this.datePosted,
+    required this.url,
+    required this.locations,
+    required this.companyUrl,
+    required this.isVisible,
+    required this.sponsorship,
   });
 
   factory Listing.fromJson(Map<String, dynamic> json) => Listing (

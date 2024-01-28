@@ -6,13 +6,24 @@ import 'dart:math';
 
 class JobsPageState extends ChangeNotifier {
   List<Listing> favorites = [];
+  List<int> seen = [0];
 
-  void updateIndex(int newIndex) {
+  void updateIndex() {
+    int newIndex = Random().nextInt(51);
+    while (seen.contains(newIndex)) {
+      newIndex = Random().nextInt(51);
+    }
     JobsPage.index = newIndex;
+    seen.add(newIndex);
     notifyListeners();
   }
 
-  void toggleFavorites() {
+  void updateProgress() {
+    JobsPage.progressValue = favorites.length / JobsPage.goal;
+    notifyListeners();
+  }
+
+  void addFavorites() {
     print(JobsPage.index.toString());
     Listing current = JobsPage.listings[JobsPage.index];
     if (favorites.contains(current)) {
@@ -27,84 +38,93 @@ class JobsPageState extends ChangeNotifier {
       favorites.removeAt(index);
       notifyListeners();
     }
+
+    
   }
 
-
-
-
 class JobsPage extends StatelessWidget {
-  JobsPage({super.key});
+  JobsPage({Key? key});
 
   static List<Listing> listings = DataService.listings;
-
   static int index = 0;
-
-  final Random random = Random();
+  static double progressValue = 0.0;
+  static int goal = 23;
 
   @override
   Widget build(BuildContext context) {
     var state = context.watch<JobsPageState>();
-    
+
+    // Calculate padding based on screen size
+    double horizontalPadding = MediaQuery.of(context).size.width * 0.03; // 5% of screen width
+    double verticalPadding = MediaQuery.of(context).size.height * 0.03; // 5% of screen height
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
-        fit: StackFit.expand,
         children: [
-          
-          
           Column(
-            mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                child: Text(
+                  "Goal",
+                  // textScaler: TextScaler.linear(1.3), // Make sure this is defined somewhere
+                ),
+              ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 60),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-                      icon: const Icon(Icons.close),
-                      iconSize: 80.0,
-                      onPressed: () {
-                        state.updateIndex(Random().nextInt(51));
-                      },
-                    ),
-                    IconButton(
-                      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 40),
-                      icon: const Icon(Icons.done),
-                      iconSize: 80.0,
-                      onPressed: () {
-                        state.toggleFavorites();
-                        state.updateIndex(Random().nextInt(51));
-                        
-                      },
-                    ),
-                  ],
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: horizontalPadding),
+                child: LinearProgressIndicator(
+                  value: progressValue,
+                  minHeight: 10,
+                  backgroundColor: Colors.black,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 200),
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      ListTile(
+                        leading: const Icon(Icons.work),
+                        title: Text(listings[index].title),
+                        subtitle: Text(listings[index].companyName),
+                        trailing: Text(listings[index].locations.toString()),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    ListTile(
-                      leading: const Icon(Icons.album),
-                      title: Text(listings[index].title),
-                      subtitle: Text(listings[index].companyName),
+          Padding(
+                padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.6),
+                child: Row(
+                  
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
+                      icon: const Icon(Icons.close),
+                      iconSize: 80.0,
+                      onPressed: () {
+                        state.updateIndex();
+                      },
+                    ),
+                    IconButton(
+                      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
+                      icon: const Icon(Icons.done),
+                      iconSize: 80.0,
+                      onPressed: () {
+                        state.addFavorites();
+                        state.updateIndex();
+                        state.updateProgress();
+                      },
                     ),
                   ],
                 ),
               ),
-            ),
-          ),
-
-
         ],
       ),
     );
   }
-
 }
