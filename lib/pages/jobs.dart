@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:navtern/data/listing.dart';
 import 'package:navtern/data/service.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
+import 'dart:math'
 
 class JobsPageState extends ChangeNotifier {
   List<Listing> favorites = [];
